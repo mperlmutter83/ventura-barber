@@ -1,65 +1,80 @@
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
+  const services = [
+    { name: 'Haircut', desc: 'Our skilled barbers are dedicated to delivering excellence.' },
+    { name: 'Buzz Cut', desc: 'Experience the timeless simplicity of a buzz cut.' },
+    { name: 'Kids Cut', desc: 'Our friendly and patient barbers specialize in creating a relaxed environment.' },
+    { name: 'Beard Trim', desc: 'Precision beard trims tailored to your unique look.' },
+    { name: 'Clean Shave', desc: 'Traditional techniques for an impeccably smooth finish.' },
+    { name: 'Styled Haircut', desc: 'Blending classic techniques with modern trends.' },
+    { name: 'Long Sheer Cut', desc: 'Soft layers and seamless blends for natural shine.' },
+    { name: 'Straight Razor', desc: 'The ultimate in grooming with this timeless tool.' },
+    { name: 'Clipper Haircut', desc: 'Sharp, clean lines and effortlessly groomed looks.' },
+  ];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="bg-stone-100">
+      {/* Hero */}
+      <section className="bg-stone-900 text-white py-20 text-center">
+        <Image src="/images/scissors.png" alt="Scissors" width={60} height={60} className="mx-auto mb-4" />
+        <p className="text-orange-400 tracking-widest">Fresh Since 2000</p>
+        <h1 className="font-serif text-5xl md:text-6xl mt-2 mb-6">Ventura Barber Shop</h1>
+        <Link href="/book-now" className="inline-block bg-orange-500 px-8 py-3 font-medium hover:bg-orange-600">Book A Chair</Link>
+        <div className="mt-8">
+          <a href="tel:+18057793804" className="text-2xl font-bold">(805) 779-3804</a>
+          <p className="text-gray-400 mt-2">Sun – Fri: 10am – 6pm | Sat: 10am – 6pm</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* About */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+          <Image src="/images/barber-shop-11.jpg" alt="Barber shop" width={600} height={400} className="rounded-lg" />
+          <div>
+            <h2 className="font-serif text-3xl text-stone-900 mb-4">About Us</h2>
+            <p className="text-gray-600 mb-4">At Ventura Barber, we believe that a great haircut is more than just a trim; it&apos;s an experience that enhances your confidence and reflects your unique style. Our skilled barbers are dedicated to staying ahead of trends while mastering timeless techniques.</p>
+            <Link href="/about" className="text-orange-500 font-medium hover:text-orange-600">Learn More →</Link>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Services */}
+      <section className="py-16 bg-stone-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12">
+            <Image src="/images/barber-7.png" alt="Barber" width={500} height={600} className="rounded-lg" />
+            <div className="grid grid-cols-1 gap-4">
+              {services.map((s, i) => (
+                <div key={i} className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="font-bold text-stone-900">{s.name}</h3>
+                  <p className="text-gray-600 text-sm">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Book CTA */}
+      <section className="py-12 bg-stone-900 text-white text-center">
+        <Image src="/images/barber-9.png" alt="Book" width={200} height={200} className="mx-auto mb-4" />
+        <h2 className="font-serif text-3xl mb-4">Book A Seat</h2>
+        <Link href="/book-now" className="inline-block bg-orange-500 px-8 py-3 font-medium hover:bg-orange-600">Book Now</Link>
+      </section>
+
+      {/* Gallery */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="font-serif text-3xl text-center text-stone-900 mb-8">Gallery</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <Image src="/images/barber-shop-17.jpg" alt="Gallery 1" width={400} height={300} className="rounded-lg" />
+            <Image src="/images/barber-shop-11.jpg" alt="Gallery 2" width={400} height={300} className="rounded-lg" />
+            <Image src="/images/barber-7.png" alt="Gallery 3" width={400} height={300} className="rounded-lg object-cover h-48" />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
