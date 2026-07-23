@@ -3,6 +3,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getPostBySlug, getAllPostSlugs } from '@/lib/blog-data';
+import { getPost, toRenderPost, type RenderPost, contentToHtml } from '@/lib/api';
+
+const SITE_DOMAIN = 'venturabarber.com';
+
+export const revalidate = 60;
+
+async function resolvePost(slug: string): Promise<RenderPost | undefined> {
+  const apiPost = await getPost(SITE_DOMAIN, slug);
+  if (apiPost) return toRenderPost(apiPost);
+  return getPostBySlug(slug);
+}
+
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -12,14 +24,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await resolvePost(slug);
   if (!post) return { title: 'Post Not Found' };
   return { title: post.title, description: post.excerpt };
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await resolvePost(slug);
   if (!post) notFound();
 
   return (
@@ -33,8 +45,8 @@ export default async function BlogPostPage({ params }: Props) {
       </section>
       <article className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <Image src={post.image} alt={post.title} width={800} height={500} className="rounded-lg mb-8 w-full" />
-          <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+          {post.image && <Image src={post.image} alt={post.title} width={800} height={500} className="rounded-lg mb-8 w-full" />}
+          <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: contentToHtml(post.content) }} />
           <div className="mt-12 pt-8 border-t">
             <Link href="/blog" className="text-orange-500 font-medium">← Back to Blog</Link>
           </div>
