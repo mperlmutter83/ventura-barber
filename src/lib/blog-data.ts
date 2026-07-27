@@ -1,7 +1,7 @@
 export interface BlogPost {
   slug: string;
   title: string;
-  date: string;
+  date: string; publishedAt: string;
   category: string;
   excerpt: string;
   image: string;
@@ -12,7 +12,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'how-to-fix-a-bad-haircut-what-barbers-can-and-cant-do',
     title: 'How to Fix a Bad Haircut — What Barbers Can (and Can\'t) Do',
-    date: 'April 29, 2026',
+    date: 'April 29, 2026', publishedAt: '2026-04-29',
     category: 'Haircuts',
     excerpt: 'A bad haircut can feel like a disaster—especially when you have work, photos, or a big event coming up. The good news: most "bad cuts" are fixable...',
     image: '/images/AdobeStock_327102759-400x250.jpeg',
@@ -21,7 +21,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'how-to-maintain-your-fade-longer-between-cuts',
     title: 'How to Maintain Your Fade Longer Between Cuts',
-    date: 'April 4, 2026',
+    date: 'April 4, 2026', publishedAt: '2026-04-04',
     category: 'Fades',
     excerpt: 'A crisp fade is one of the cleanest looks you can wear—but it can lose its sharpness quickly as hair grows out...',
     image: '/images/AdobeStock_115727227-400x250.jpeg',
@@ -30,7 +30,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'a-guide-to-barbershops-in-ventura-what-makes-a-great-cut',
     title: 'A Guide to Barbershops in Ventura: What Makes a Great Cut?',
-    date: 'March 19, 2026',
+    date: 'March 19, 2026', publishedAt: '2026-03-19',
     category: 'Barbers',
     excerpt: 'Finding the right barbershop is about more than convenience. A truly great cut should match your face shape, hair type, and lifestyle...',
     image: '/images/AdobeStock_238613870-400x250.jpeg',
@@ -38,10 +38,33 @@ export const blogPosts: BlogPost[] = [
   },
 ];
 
-export function getPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find((post) => post.slug === slug);
+
+/** Current date in America/Los_Angeles as YYYY-MM-DD. */
+function getTodayLA(): string {
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
 }
 
+/**
+ * Only posts whose publishedAt is <= today (America/Los_Angeles).
+ * Use for all public-facing listings and lookups so scheduled posts
+ * stay invisible until their date.
+ */
+export function getPublishedPosts(): BlogPost[] {
+  const today = getTodayLA();
+  return blogPosts.filter(post => post.publishedAt <= today);
+}
+
+/** Published post by slug — undefined if not found or not yet published. */
+export function getPostBySlug(slug: string): BlogPost | undefined {
+  return getPublishedPosts().find(post => post.slug === slug);
+}
+
+/** Slugs of published posts (generateStaticParams). */
 export function getAllPostSlugs(): string[] {
-  return blogPosts.map((post) => post.slug);
+  return getPublishedPosts().map(post => post.slug);
+}
+
+/** ALL posts (published + scheduled) — /api/posts feed & admin only. */
+export function getAllPosts(): BlogPost[] {
+  return blogPosts;
 }
