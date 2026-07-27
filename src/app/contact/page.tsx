@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import HoursLines from '@/components/HoursLines';
 
 export const metadata: Metadata = { title: 'Contact Us' };
 
@@ -23,8 +24,7 @@ export default function ContactPage() {
             <h3 className="font-bold text-lg mb-2">Call</h3>
             <a href="tel:+18057793804" className="text-orange-500 text-xl font-bold">(805) 779-3804</a>
             <h3 className="font-bold text-lg mt-4 mb-2">Hours</h3>
-            <p className="text-gray-600">Sun – Fri: 10am – 6pm</p>
-            <p className="text-gray-600">Sat: 10am – 6pm</p>
+            <HoursLines className="text-gray-600" />
           </div>
         </div>
       </section>
