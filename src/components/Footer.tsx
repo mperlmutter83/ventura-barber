@@ -13,6 +13,9 @@ export default function Footer() {
           <h4 className="font-bold mb-4">Contact</h4>
           <p className="text-gray-400">3130 Telegraph Rd, Ventura, CA 93003</p>
           <a href="tel:+18057793804" className="text-orange-400">(805) 779-3804</a>
+          <p className="mt-3">
+            <Link href="/looking-for-work" className="text-orange-400 hover:text-orange-300">Looking for Work</Link>
+          </p>
         </div>
         <div>
           <h4 className="font-bold mb-4">Hours</h4>
